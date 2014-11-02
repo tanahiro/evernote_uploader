@@ -1,0 +1,40 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+
+root_dir = "#{__dir__}/../"
+require "#{root_dir}/lib/evernote_uploader"
+
+options = {notebook: "web clip", token: "~/.evernote-token"}
+help_message = ""
+OptionParser.new {|opts|
+  opts.banner = "Usage: #{File.basename(__FILE__)} [options] filename(s)..."
+
+  opts.on("-n", "--notebook NOTEBOOK",
+          String, "Name of notebook (default: #{options[:notebook]})") {|nb|
+    options[:notebook] = nb
+  }
+
+  opts.on("-t", "--title TITLE", String, "Title of the note") {|title|
+    options[:title] = title
+  }
+
+  opts.on("--token TOKEN", String, "Token for evernote or filename") {|token|
+    options[:token] = token
+  }
+
+  opts.on("--tags TAGS", Array, "Tags") {|tags|
+    options[:tags] = tags
+  }
+
+  help_message = opts.to_s
+}.parse!
+
+if ARGV.size < 1
+  puts help_message
+  exit
+end
+
+ev = EvernoteUploader.new(ARGV, options)
+ev.upload
+
