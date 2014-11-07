@@ -24,11 +24,18 @@ class EvernoteUploader
     get_notebooks
     check_notebook
 
-    @note = create_note(@options, @filenames)
+    @note = create_note(@options, @filenames, @notebook)
   end
 
   def upload
+    puts "uploading #{@filenames.join(", ")}"
+    puts "Notebook #{@notebook.name}"
+    puts "tags #{@options[:tags]}"
+    puts "..."
+
     @note_store.createNote(@token, @note)
+
+    puts "done!"
   end
 
   def check_evernote_token
@@ -62,7 +69,6 @@ class EvernoteUploader
     note_store_protocol  = Thrift::BinaryProtocol.new(note_store_transport)
     @note_store          =
       Evernote::EDAM::NoteStore::NoteStore::Client.new(note_store_protocol)
-
   end
 
   def check_notebook
