@@ -27,6 +27,11 @@ OptionParser.new {|opts|
     options[:tags] = tags
   }
 
+  opts.on_tail("-v", "--version") { 
+    puts "#{File.basename($0)}: #{EvernoteUploader::VERSION}"
+    exit
+  }
+
   help_message = opts.to_s
 }.parse!
 
