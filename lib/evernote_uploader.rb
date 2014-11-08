@@ -29,7 +29,8 @@ class EvernoteUploader
 
   def upload
     puts "uploading #{@filenames.join(", ")}"
-    puts "Notebook #{@notebook.name}"
+    puts "Notebook: #{@notebook.name}"
+    puts "Title: #{@note.title}"
     puts "tags #{@options[:tags]}"
     puts "..."
 
