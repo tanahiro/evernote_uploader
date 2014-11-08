@@ -12,6 +12,7 @@ class EvernoteUploader
   EvernoteHost = "www.evernote.com"
   EvernoteUrl  = "https://#{EvernoteHost}/edam/user/"
 
+  class TokenError < StandardError; end # :nodoc:
 
   def initialize filenames, options
     @filenames = filenames
@@ -40,12 +41,16 @@ class EvernoteUploader
   end
 
   def check_evernote_token
-    if File.exist?(File.expand_path(@options[:token]))
-      filename = File.expand_path(@options[:token])
-      @token = File.open(filename) {|f| f.gets }.chomp
-    else
-      @token = @options[:token]
+    if @options[:token]
+      if File.exist?(File.expand_path(@options[:token]))
+        filename = File.expand_path(@options[:token])
+        @token = File.open(filename) {|f| f.gets }.chomp
+      else
+        @token = @options[:token]
+      end
     end
+
+    raise TokenError unless @token, "Token is not specified properly"
   end
 
   def evernote_api
