@@ -50,7 +50,7 @@ class EvernoteUploader
       end
     end
 
-    raise TokenError unless @token, "Token is not specified properly"
+    raise TokenError, "Token is not specified properly" unless @token
   end
 
   def evernote_api
