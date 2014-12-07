@@ -21,7 +21,7 @@ module EvernoteUploaderHelper
 
   def create_note options, filenames, notebook = nil
     note       = Evernote::EDAM::Type::Note.new
-    note.title = options[:title] || File.basename(filenames.first)
+    note.title = options[:title] || File.basename(filenames.first, ".*")
 
     note.tagNames     = options[:tags]
     if notebook

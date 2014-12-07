@@ -28,7 +28,7 @@ EOF
     note = create_note({}, ["#{ROOT_DIR}/test/enlogo.png"])
 
     assert_equal(expected_content, note.content)
-    assert_equal("enlogo.png", note.title)
+    assert_equal("enlogo", note.title)
 
   end
 end
