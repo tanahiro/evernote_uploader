@@ -2,6 +2,8 @@
 module EvernoteUploaderHelper
   class FileTypeError < StandardError; end
 
+  ##
+  #  http://www.iana.org/assignments/media-types/media-types.xhtml
   def detect_mime_type filename
     case File.extname(filename.downcase)
     when ".pdf"
@@ -14,6 +16,8 @@ module EvernoteUploaderHelper
       return "image/jpeg"
     when ".png"
       return "image/png"
+    when ".zip"
+      return "application/zip"
     else
       raise FileTypeError, "Unknown file type"
     end

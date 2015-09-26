@@ -13,6 +13,7 @@ class TestEvernoteUploader < MiniTest::Unit::TestCase
     assert_equal("application/x-mobipocket-ebook", detect_mime_type("foo.mobi"))
     assert_equal("image/jpeg", detect_mime_type("foo.jpg"))
     assert_equal("image/png", detect_mime_type("foo.png"))
+    assert_equal("application/zip", detect_mime_type("foo.zip"))
 
     assert_raises(FileTypeError) { detect_mime_type("foo.bar") }
   end
