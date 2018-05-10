@@ -1,3 +1,4 @@
+require 'mime/types'
 
 module EvernoteUploaderHelper
   class FileTypeError < StandardError; end
@@ -5,21 +6,16 @@ module EvernoteUploaderHelper
   ##
   #  http://www.iana.org/assignments/media-types/media-types.xhtml
   def detect_mime_type filename
-    case File.extname(filename.downcase)
-    when ".pdf"
-      return "application/pdf"
-    when ".epub"
-      return "application/epub+zip"
-    when ".mobi"
-      return "application/x-mobipocket-ebook"
-    when ".jpg"
-      return "image/jpeg"
-    when ".png"
-      return "image/png"
-    when ".zip"
-      return "application/zip"
+    extname = File.extname(filename).downcase.gsub(/\A\./, "")
+
+    mime = MIME::Types.find do |type|
+      type.extensions.any?(extname)
+    end
+
+    if mime
+      return mime.to_s
     else
-      raise FileTypeError, "Unknown file type"
+      raise FileTypeError, "Unknown file type: #{extname}"
     end
   end
 
